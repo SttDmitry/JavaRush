@@ -137,7 +137,9 @@ public class Main {
         System.out.println(fib.getFibonacciByPosition(5, Fibonacci.OperationType.CYCLIC));
 
         Scanner scanner = new Scanner(System.in);
+        System.out.println("Введите имя");
         String name = scanner.nextLine();
+        System.out.println("Введите возраст");
         int age = scanner.nextInt();
 
 
