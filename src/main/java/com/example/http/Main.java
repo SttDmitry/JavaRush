@@ -4,6 +4,7 @@ import com.example.http.entities.Cat;
 import com.example.http.entities.Dog;
 import com.example.http.entities.Fish;
 import com.example.http.entities.Women;
+import com.example.http.utils.Fibonacci;
 
 import javax.swing.text.DateFormatter;
 import java.awt.*;
@@ -130,6 +131,10 @@ public class Main {
         System.out.println("It's Windows path: \"C:\\Program Files\\Java\\jdk1.7.0\\bin\"");
         System.out.println("It's Java string: \\\"C:\\\\Program Files\\\\Java\\\\jdk1.7.0\\\\bin\\\"");
 
+        Fibonacci fib = new Fibonacci();
+        System.out.println(fib.getFibonacciByPosition(4, Fibonacci.OperationType.RECURSIVE));
+        System.out.println(fib.getFibonacciByPosition(4, Fibonacci.OperationType.CYCLIC));
+
         Scanner scanner = new Scanner(System.in);
         String name = scanner.nextLine();
         int age = scanner.nextInt();
@@ -149,6 +154,8 @@ public class Main {
 
         String jap = "日本語";
         System.out.println(jap);
+
+
     }
 
     public static int getMin(int a,int b) {
