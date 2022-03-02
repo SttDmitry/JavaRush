@@ -21,15 +21,17 @@ public class Fibonacci {
     public Long getFibonacciByPosition(int n, OperationType operationType) {
         if (n > 0) {
             if (cachedValues.size() >= n) {
-                System.out.println("Result from cache");
+                System.out.print("Result from Cache: ");
                 return cachedValues.get(n - 1);
             }
 
             switch (operationType) {
                 case CYCLIC -> {
+                    System.out.print("Result from Cyclic: ");
                     return getFibonacciCyclic(n);
                 }
                 case RECURSIVE -> {
+                    System.out.print("Result from Recursive: ");
                     return getFibonacciRecursive(n);
                 }
             }
@@ -41,7 +43,7 @@ public class Fibonacci {
         long temp1 = cachedValues.get(cachedValues.size()-2);
         long temp2 = cachedValues.get(cachedValues.size()-1);
         long result = -1L;
-        for (int i = cachedValues.size(); i <= n; i++) {
+        for (int i = cachedValues.size(); i < n; i++) {
             result = temp1 + temp2;
             cachedValues.add(result);
             temp1 = temp2;

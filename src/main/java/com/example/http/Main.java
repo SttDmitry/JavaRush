@@ -134,6 +134,7 @@ public class Main {
         Fibonacci fib = new Fibonacci();
         System.out.println(fib.getFibonacciByPosition(4, Fibonacci.OperationType.RECURSIVE));
         System.out.println(fib.getFibonacciByPosition(4, Fibonacci.OperationType.CYCLIC));
+        System.out.println(fib.getFibonacciByPosition(5, Fibonacci.OperationType.CYCLIC));
 
         Scanner scanner = new Scanner(System.in);
         String name = scanner.nextLine();
