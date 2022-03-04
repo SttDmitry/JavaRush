@@ -19,4 +19,8 @@ public class Animal {
     public void setOwner(Man owner) {
         this.owner = owner;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
