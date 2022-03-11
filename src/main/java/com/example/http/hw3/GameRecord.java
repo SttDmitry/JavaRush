@@ -31,6 +31,9 @@ public class GameRecord {
     }
 
     private void getRecord() {
+        if (files.length == 0) {
+            return;
+        }
         int number = sc.nextInt()-1;
         readRecord(files[number].getName());
     }
