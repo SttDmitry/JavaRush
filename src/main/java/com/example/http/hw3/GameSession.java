@@ -1,10 +1,7 @@
 package com.example.http.hw3;
 
 
-import jakarta.xml.bind.annotation.XmlAttribute;
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlElementWrapper;
-import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.*;
 
 
 import java.time.LocalDateTime;
@@ -12,18 +9,19 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-@XmlRootElement
+@XmlRootElement(name = "Gameplay")
 public class GameSession {
     private String name;
-    private String playerName1, playerName2;
-    private List<String> steps = new ArrayList<>();
+    private List<Step> steps = new ArrayList<>();
+    private List<Player> player = new ArrayList<>();
+    private GameResult gameResult = new GameResult();
 
     public GameSession(){}
 
     public GameSession(String playerName1, String playerName2) {
         this.name = playerName1 + "vs." + playerName2 + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd kk-mm-ss"));
-        this.playerName1 = playerName1;
-        this.playerName2 = playerName2;
+        this.player.add(new Player(1, playerName1, "X"));
+        this.player.add(new Player(2, playerName2, "O"));
     }
 
     public String getName() {
@@ -35,41 +33,32 @@ public class GameSession {
         this.name = name;
     }
 
-    public String getPlayerName1() {
-        return playerName1;
+
+    public List<Player> getPlayer() {
+        return player;
     }
 
-    @XmlElement
-    public void setPlayerName1(String playerName1) {
-        this.playerName1 = playerName1;
+    @XmlElement(name = "Player")
+    public void setPlayer(List<Player> player) {
+        this.player = player;
     }
 
-    public String getPlayerName2() {
-        return playerName2;
-    }
-
-    @XmlElement
-    public void setPlayerName2(String playerName2) {
-        this.playerName2 = playerName2;
-    }
-
-    public List<String> getSteps() {
+    public List<Step> getSteps() {
         return steps;
     }
 
-    @XmlElementWrapper(name = "steps")
-    @XmlElement(name = "step")
-    public void setSteps(List<String> steps) {
+    @XmlElementWrapper(name = "Game")
+    @XmlElement(name = "Step")
+    public void setSteps(List<Step> steps) {
         this.steps = steps;
     }
 
-    @Override
-    public String toString() {
-        return "GameSession{" +
-                "name='" + name + '\'' +
-                ", playerName1='" + playerName1 + '\'' +
-                ", playerName2='" + playerName2 + '\'' +
-                ", steps=" + steps +
-                '}';
+    public GameResult getGameResult() {
+        return gameResult;
+    }
+
+    @XmlElement
+    public void setGameResult(GameResult gameResult) {
+        this.gameResult = gameResult;
     }
 }

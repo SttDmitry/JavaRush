@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Gameplay name="stvs.sd2022.03.11 20-31-34">
+    <gameResult result="Win!">
+        <player id="1" name="st" symbol="X"/>
+    </gameResult>
+    <Player id="1" name="st" symbol="X"/>
+    <Player id="2" name="sd" symbol="O"/>
+    <Game>
+        <Step num="1" playerId="1">0 0</Step>
+        <Step num="2" playerId="2">1 0</Step>
+        <Step num="3" playerId="1">0 1</Step>
+        <Step num="4" playerId="2">1 1</Step>
+        <Step num="5" playerId="1">0 2</Step>
+    </Game>
+</Gameplay>

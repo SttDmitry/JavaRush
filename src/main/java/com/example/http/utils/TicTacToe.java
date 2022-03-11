@@ -2,6 +2,8 @@ package com.example.http.utils;
 
 
 import com.example.http.hw3.GameSession;
+import com.example.http.hw3.Player;
+import com.example.http.hw3.Step;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Marshaller;
@@ -26,7 +28,7 @@ public class TicTacToe {
     private static final char[][] grid = new char[3][3];
     private String winnerName;
     private static GameSession game;
-    private static int counter = 0;
+    private static int counter = 1;
 
     private final static Path path = Path.of(".\\winners.txt");
     private final static Path pathToXML = Path.of(".\\src\\main\\resources");
@@ -47,8 +49,8 @@ public class TicTacToe {
         winnersList();
         game = gameSession;
         isRecord = true;
-        TicTacToe.name = gameSession.getPlayerName1();
-        TicTacToe.anotherName = gameSession.getPlayerName2();
+        TicTacToe.name = gameSession.getPlayer().get(0).getName();
+        TicTacToe.anotherName = gameSession.getPlayer().get(1).getName();
         gridInitialize();
         gridPrint();
         gameStart();
@@ -138,10 +140,18 @@ public class TicTacToe {
         if (checkWin(firstChar)) {
             System.out.println("Победил " + name);
             winnerName = name;
+            if (winnerName.equals(game.getPlayer().get(0).getName())) {
+                game.getGameResult().setPlayer(game.getPlayer().get(0));
+                game.getGameResult().setResult("Win!");
+            } else {
+                game.getGameResult().setPlayer(game.getPlayer().get(1));
+            }
             return true;
         }
         if (isGridFull()) {
             System.out.println("Ничья");
+            game.getGameResult().setResult("Draw!");
+            game.getGameResult().setPlayer(new Player(0, "NotPlayer", "-"));
             return true;
         }
         return false;
@@ -242,15 +252,22 @@ public class TicTacToe {
                 x = sc.nextInt() - 1;
                 y = sc.nextInt() - 1;
             } else {
-                String step = game.getSteps().get(counter);
+                String step = game.getSteps().get(counter).getStep();
                 String[] xy = step.split(" ");
                 x = Integer.parseInt(xy[0]);
                 y = Integer.parseInt(xy[1]);
             }
         } while (!isCellValid(x, y));
 
-        if (!isRecord)
-            game.getSteps().add(x + " " + y);
+        if (!isRecord) {
+            if (counter % 2 == 0) {
+                game.getSteps().add(new Step(counter++, game.getPlayer().get(1).getId(),x + " " + y));
+            } else {
+                game.getSteps().add(new Step(counter++, game.getPlayer().get(0).getId(),x + " " + y));
+            }
+
+        }
+
 
         grid[y][x] = c;
     }
