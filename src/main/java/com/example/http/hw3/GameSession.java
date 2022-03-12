@@ -57,7 +57,7 @@ public class GameSession {
         return gameResult;
     }
 
-    @XmlElement
+    @XmlElement(name="GameResult")
     public void setGameResult(GameResult gameResult) {
         this.gameResult = gameResult;
     }
