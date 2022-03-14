@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @XmlRootElement(name = "Gameplay")
+@XmlType(propOrder = { "player", "steps", "gameResult" })
 public class GameSession {
     private String name;
     private List<Step> steps = new ArrayList<>();
@@ -20,8 +21,8 @@ public class GameSession {
 
     public GameSession(String playerName1, String playerName2) {
         this.name = playerName1 + "vs." + playerName2 + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd kk-mm-ss"));
-        this.player.add(new Player(1, playerName1, "X"));
-        this.player.add(new Player(2, playerName2, "O"));
+        this.player.add(new Player(0, playerName1, "X"));
+        this.player.add(new Player(1, playerName2, "O"));
     }
 
     public String getName() {

@@ -41,8 +41,8 @@ public class TicTacToe {
         TicTacToe.anotherName = anotherName;
         gridInitialize();
         gridPrint();
-        gameStart();
         isRecord = false;
+        gameStart();
     }
 
     public TicTacToe(GameSession gameSession) {
@@ -79,6 +79,7 @@ public class TicTacToe {
     private void winnerWrite(String name) {
         int count = 0;
         for (int i = 0; i < list.size(); i++) {
+            System.out.println(list.get(i));
             if (list.get(i).contains(name)) {
                 count++;
                 String temp = list.get(i).substring(list.get(i).lastIndexOf("-") + 2);
@@ -128,8 +129,12 @@ public class TicTacToe {
             }
         }
 
-        if (!isRecord)
+        if (!isRecord && winnerName != null) {
             winnerWrite(winnerName);
+        } else if (!isRecord) {
+            sessionWriteToXML();
+        }
+
 
         System.out.println("Игра закончена");
     }
@@ -151,7 +156,7 @@ public class TicTacToe {
         if (isGridFull()) {
             System.out.println("Ничья");
             game.getGameResult().setResult("Draw!");
-            game.getGameResult().setPlayer(new Player(0, "NotPlayer", "-"));
+            game.getGameResult().setPlayer(new Player(-1, "NotPlayer", "-"));
             return true;
         }
         return false;
