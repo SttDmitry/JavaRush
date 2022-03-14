@@ -3,7 +3,6 @@ package com.example.http.hw3;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
-import jakarta.xml.bind.annotation.XmlValue;
 
 @XmlRootElement(name = "GameResult")
 public class GameResult {

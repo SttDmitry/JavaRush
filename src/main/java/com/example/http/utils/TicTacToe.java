@@ -114,6 +114,7 @@ public class TicTacToe {
 
     private void gameStart() {
         if (!isRecord) {
+            counter = 1;
             game = new GameSession(name, anotherName);
             while (true) {
                 if (gameTurn(FIRST_CHAR, name)) break;
