@@ -9,6 +9,10 @@ public class Cat extends Animal{
     {
         catsCount++;
     }
+    public static void decreaseCatCount()
+    {
+        catsCount--;
+    }
 
     public static void setCatsCount(int catsCounter)
     {
@@ -60,5 +64,11 @@ public class Cat extends Animal{
 
     public boolean fightCat(Cat anotherCat) {
         return this.strength * this.weight > anotherCat.getStrength() * anotherCat.getWeight();
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        decreaseCatCount();
+        super.finalize();
     }
 }
