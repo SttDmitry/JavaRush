@@ -34,8 +34,8 @@ public class GameJSONRecord implements IParse {
         try {
             Path jsonPath = Path.of(pathToFile + "\\" + game.getName() + ".json");
             String json = mapper.writeValueAsString(game);
-            JSONObject json2 = new JSONObject(json);
-            Files.write(jsonPath, Collections.singleton(json2.toString(8)));
+//            JSONObject json2 = new JSONObject(json);
+            Files.write(jsonPath, Collections.singleton(json));
         } catch (IOException e) {
             e.printStackTrace();
         }

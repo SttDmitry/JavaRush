@@ -24,13 +24,13 @@ public class Player {
         this.symbol = symbol;
     }
 
-    public long getId() {
-        return id;
+    public String getId() {
+        return String.valueOf(id);
     }
 
     @XmlAttribute
-    public void setId(long id) {
-        this.id = id;
+    public void setId(String id) {
+        this.id = Long.parseLong(id);
     }
 
     public String getName() {

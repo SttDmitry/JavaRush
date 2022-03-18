@@ -17,28 +17,28 @@ public class Step {
     public Step() {
     }
 
-    public Step(int num, long playerId, String step) {
+    public Step(int num, String playerId, String step) {
         this.num = num;
-        this.playerId = playerId;
+        this.playerId = Long.parseLong(playerId);
         this.step = step;
     }
 
-    public int getNum() {
-        return num;
+    public String getNum() {
+        return String.valueOf(num);
     }
 
     @XmlAttribute
-    public void setNum(int num) {
-        this.num = num;
+    public void setNum(String num) {
+        this.num = Integer.parseInt(num);
     }
 
-    public long getPlayerId() {
-        return playerId;
+    public String getPlayerId() {
+        return String.valueOf(playerId);
     }
 
     @XmlAttribute
-    public void setPlayerId(long playerId) {
-        this.playerId = playerId;
+    public void setPlayerId(String playerId) {
+        this.playerId = Long.parseLong(playerId);
     }
 
     public String getStep() {
