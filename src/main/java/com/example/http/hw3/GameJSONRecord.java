@@ -1,8 +1,10 @@
 package com.example.http.hw3;
 
 import com.example.http.utils.TicTacToe;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import org.json.JSONObject;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -32,7 +34,8 @@ public class GameJSONRecord implements IParse {
         try {
             Path jsonPath = Path.of(pathToFile + "\\" + game.getName() + ".json");
             String json = mapper.writeValueAsString(game);
-            Files.write(jsonPath, Collections.singleton(json));
+            JSONObject json2 = new JSONObject(json);
+            Files.write(jsonPath, Collections.singleton(json2.toString(8)));
         } catch (IOException e) {
             e.printStackTrace();
         }

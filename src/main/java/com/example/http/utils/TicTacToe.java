@@ -72,7 +72,6 @@ public class TicTacToe {
     private void winnerWrite(String name) {
         int count = 0;
         for (int i = 0; i < list.size(); i++) {
-            System.out.println(list.get(i));
             if (list.get(i).contains(name)) {
                 count++;
                 String temp = list.get(i).substring(list.get(i).lastIndexOf("-") + 2);

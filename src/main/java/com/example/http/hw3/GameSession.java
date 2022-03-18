@@ -1,6 +1,9 @@
 package com.example.http.hw3;
 
 
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.xml.bind.annotation.*;
 
 
@@ -11,10 +14,15 @@ import java.util.List;
 
 @XmlRootElement(name = "Gameplay")
 @XmlType(propOrder = { "player", "steps", "gameResult" })
+@JsonRootName("Gameplay")
 public class GameSession {
+    @JsonIgnore
     private String name;
+    @JsonProperty("Player")
     private List<Player> player = new ArrayList<>();
+    @JsonProperty("Game")
     private List<Step> steps = new ArrayList<>();
+    @JsonProperty("GameResult")
     private GameResult gameResult = new GameResult();
 
     public GameSession(){}
