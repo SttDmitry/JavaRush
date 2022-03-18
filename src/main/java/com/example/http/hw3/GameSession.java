@@ -13,8 +13,8 @@ import java.util.List;
 @XmlType(propOrder = { "player", "steps", "gameResult" })
 public class GameSession {
     private String name;
-    private List<Step> steps = new ArrayList<>();
     private List<Player> player = new ArrayList<>();
+    private List<Step> steps = new ArrayList<>();
     private GameResult gameResult = new GameResult();
 
     public GameSession(){}
