@@ -102,7 +102,7 @@ public class TicTacToe {
                 if (gameTurn(SECOND_CHAR, anotherName)) break;
             }
         } else {
-            for (counter = 0; counter < game.getSteps().size(); counter++ ) {
+            for (counter = 0; counter < game.getGame().getSteps().size(); counter++ ) {
                 if (counter % 2 == 0) {
                     gameTurn(FIRST_CHAR, name);
                 } else {
@@ -239,7 +239,7 @@ public class TicTacToe {
                 x = sc.nextInt() - 1;
                 y = sc.nextInt() - 1;
             } else {
-                String step = game.getSteps().get(counter).getStep();
+                String step = game.getGame().getSteps().get(counter).getStep();
                 String[] xy = step.split(" ");
                 x = Integer.parseInt(xy[0]);
                 y = Integer.parseInt(xy[1]);
@@ -248,9 +248,9 @@ public class TicTacToe {
 
         if (!isRecord) {
             if (counter % 2 == 0) {
-                game.getSteps().add(new Step(counter++, game.getPlayer().get(1).getId(),x + " " + y));
+                game.getGame().getSteps().add(new Step(counter++, game.getPlayer().get(1).getId(),x + " " + y));
             } else {
-                game.getSteps().add(new Step(counter++, game.getPlayer().get(0).getId(),x + " " + y));
+                game.getGame().getSteps().add(new Step(counter++, game.getPlayer().get(0).getId(),x + " " + y));
             }
 
         }

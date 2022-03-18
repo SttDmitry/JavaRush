@@ -1,12 +1,18 @@
 package com.example.http.hw3;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "Player")
+@JsonPropertyOrder({ "_id", "_name", "_symbol"})
 public class Player {
+    @JsonProperty("_id")
     private long id;
+    @JsonProperty("_name")
     private String name;
+    @JsonProperty("_symbol")
     private String symbol;
 
     public Player() {

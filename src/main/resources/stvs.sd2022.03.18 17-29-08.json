@@ -1,0 +1,49 @@
+{
+        "Player": [
+                {
+                        "_name": "st",
+                        "_id": 0,
+                        "_symbol": "X"
+                },
+                {
+                        "_name": "sd",
+                        "_id": 1,
+                        "_symbol": "O"
+                }
+        ],
+        "Game": {"Step": [
+                {
+                        "__text": "0 0",
+                        "_playerId": 0,
+                        "_num": 1
+                },
+                {
+                        "__text": "1 0",
+                        "_playerId": 1,
+                        "_num": 2
+                },
+                {
+                        "__text": "0 1",
+                        "_playerId": 0,
+                        "_num": 3
+                },
+                {
+                        "__text": "1 1",
+                        "_playerId": 1,
+                        "_num": 4
+                },
+                {
+                        "__text": "0 2",
+                        "_playerId": 0,
+                        "_num": 5
+                }
+        ]},
+        "GameResult": {
+                "result": "Win!",
+                "Player": {
+                        "_name": "st",
+                        "_id": 0,
+                        "_symbol": "X"
+                }
+        }
+}

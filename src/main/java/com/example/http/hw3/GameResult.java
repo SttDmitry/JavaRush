@@ -1,5 +1,6 @@
 package com.example.http.hw3;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -7,6 +8,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "GameResult")
 public class GameResult {
     private String result;
+    @JsonProperty("Player")
     private Player player;
 
     public GameResult() {

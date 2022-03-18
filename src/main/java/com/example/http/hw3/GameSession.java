@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @XmlRootElement(name = "Gameplay")
-@XmlType(propOrder = { "player", "steps", "gameResult" })
+@XmlType(propOrder = { "player", "game", "gameResult" })
 @JsonRootName("Gameplay")
 public class GameSession {
     @JsonIgnore
@@ -21,13 +21,14 @@ public class GameSession {
     @JsonProperty("Player")
     private List<Player> player = new ArrayList<>();
     @JsonProperty("Game")
-    private List<Step> steps = new ArrayList<>();
+    private Game game;
     @JsonProperty("GameResult")
     private GameResult gameResult = new GameResult();
 
     public GameSession(){}
 
     public GameSession(String playerName1, String playerName2) {
+        this.game = new Game();
         this.name = playerName1 + "vs." + playerName2 + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd kk-mm-ss"));
         this.player.add(new Player(0, playerName1, "X"));
         this.player.add(new Player(1, playerName2, "O"));
@@ -52,14 +53,14 @@ public class GameSession {
         this.player = player;
     }
 
-    public List<Step> getSteps() {
-        return steps;
+    public Game getGame() {
+        return game;
     }
 
-    @XmlElementWrapper(name = "Game")
-    @XmlElement(name = "Step")
-    public void setSteps(List<Step> steps) {
-        this.steps = steps;
+
+    @XmlElement(name = "Game")
+    public void setGame(Game game) {
+        this.game = game;
     }
 
     public GameResult getGameResult() {

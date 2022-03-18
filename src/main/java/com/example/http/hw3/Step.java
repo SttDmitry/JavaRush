@@ -1,13 +1,17 @@
 package com.example.http.hw3;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.xml.bind.annotation.*;
-@JsonPropertyOrder({ "num", "playerId", "step" })
+@JsonPropertyOrder({ "_num", "_playerId", "__text" })
 @XmlType(propOrder = { "num", "playerId", "step" })
 public class Step {
+    @JsonProperty("_num")
     private int num;
+    @JsonProperty("_playerId")
     private long playerId;
+    @JsonProperty("__text")
     private String step;
 
     public Step() {
