@@ -3,14 +3,14 @@ package com.example.http.hw3;
 import java.util.Scanner;
 
 public class ParseFabric {
-    private static IParse parseClass;
+    private static IParse parseInstance;
     private static Scanner scanner = new Scanner(System.in);
 
-    public static IParse getParser() {
-        if (parseClass == null) {
-            parseClass = new GameJSONRecord(scanner);
-            return parseClass;
+    public static IParse getParserInstance() {
+        if (parseInstance == null) {
+            parseInstance = new GameJSONRecord(scanner);
+            return parseInstance;
         }
-        return parseClass;
+        return parseInstance;
     }
 }

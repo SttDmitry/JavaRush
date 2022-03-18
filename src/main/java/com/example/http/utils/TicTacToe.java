@@ -2,11 +2,7 @@ package com.example.http.utils;
 
 
 import com.example.http.hw3.*;
-import jakarta.xml.bind.JAXBContext;
-import jakarta.xml.bind.JAXBException;
-import jakarta.xml.bind.Marshaller;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -27,7 +23,7 @@ public class TicTacToe {
     private String winnerName;
     private static GameSession game;
     private static int counter = 1;
-    private static IParse parser = ParseFabric.getParser();
+    private static IParse parser = ParseFabric.getParserInstance();
     private final static Path path = Path.of(".\\winners.txt");
     private static List<String> list;
 

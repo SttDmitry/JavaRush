@@ -18,7 +18,7 @@ public class Main {
 
         String choice;
 
-        IParse gameRecord = ParseFabric.getParser();
+        IParse gameRecord = ParseFabric.getParserInstance();
 
         do {
             System.out.println("Введите \"start\" чтобы начать игру, \"records\" - для просмотра списка записей," +
