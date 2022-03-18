@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Functions {
 
-    public static Path pathToXML = Path.of(".\\src\\main\\resources");
+    public static Path pathToFile = Path.of(".\\src\\main\\resources");
 
     public static int maxFromArray(ArrayList<Integer> values){
         Integer max = Integer.MIN_VALUE;

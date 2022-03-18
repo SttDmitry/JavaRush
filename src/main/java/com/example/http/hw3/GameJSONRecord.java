@@ -10,7 +10,7 @@ import java.nio.file.Path;
 import java.util.Collections;
 import java.util.Scanner;
 
-import static com.example.http.utils.Functions.pathToXML;
+import static com.example.http.utils.Functions.pathToFile;
 
 public class GameJSONRecord implements IParse {
 
@@ -30,7 +30,7 @@ public class GameJSONRecord implements IParse {
     @Override
     public void parse(GameSession game) {
         try {
-            Path jsonPath = Path.of(pathToXML + "\\" + game.getName() + ".json");
+            Path jsonPath = Path.of(pathToFile + "\\" + game.getName() + ".json");
             String json = mapper.writeValueAsString(game);
             Files.write(jsonPath, Collections.singleton(json));
         } catch (IOException e) {
@@ -49,7 +49,7 @@ public class GameJSONRecord implements IParse {
     @Override
     public void readRecord(String name) {
         try {
-            File file = Path.of(pathToXML + "\\" + name).toFile();
+            File file = Path.of(pathToFile + "\\" + name).toFile();
             GameSession game = mapper.readValue(file, GameSession.class);
             new TicTacToe(game);
         } catch (IOException e) {
@@ -59,7 +59,7 @@ public class GameJSONRecord implements IParse {
 
     @Override
     public void getRecordsList() {
-        File recordFolder = pathToXML.toFile();
+        File recordFolder = pathToFile.toFile();
         FileFilter fileFilter = pathname -> pathname.getName().endsWith(".json");
         files = recordFolder.listFiles(fileFilter);
         for (int i = 0; i < files.length; i++) {

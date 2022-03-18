@@ -11,7 +11,7 @@ import java.io.FileFilter;
 import java.nio.file.Path;
 import java.util.Scanner;
 
-import static com.example.http.utils.Functions.pathToXML;
+import static com.example.http.utils.Functions.pathToFile;
 
 public class GameXMLRecord implements IParse{
 
@@ -24,7 +24,7 @@ public class GameXMLRecord implements IParse{
 
     @Override
     public void getRecordsList () {
-        File recordFolder = pathToXML.toFile();
+        File recordFolder = pathToFile.toFile();
         FileFilter fileFilter = pathname -> pathname.getName().endsWith(".xml");
         files = recordFolder.listFiles(fileFilter);
         for (int i = 0; i < files.length; i++) {
@@ -44,7 +44,7 @@ public class GameXMLRecord implements IParse{
     @Override
     public void readRecord(String name) {
         try {
-            File file = Path.of(pathToXML + "\\" + name).toFile();
+            File file = Path.of(pathToFile + "\\" + name).toFile();
             JAXBContext context = JAXBContext.newInstance(GameSession.class);
             Unmarshaller unmarshaller = context.createUnmarshaller();
             GameSession game = (GameSession) unmarshaller.unmarshal(file);
@@ -57,7 +57,7 @@ public class GameXMLRecord implements IParse{
     @Override
     public void parse(GameSession game) {
         try {
-            File xmlFile = Path.of(pathToXML + "\\" + game.getName() + ".xml").toFile();
+            File xmlFile = Path.of(pathToFile + "\\" + game.getName() + ".xml").toFile();
             JAXBContext context = JAXBContext.newInstance(GameSession.class);
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
