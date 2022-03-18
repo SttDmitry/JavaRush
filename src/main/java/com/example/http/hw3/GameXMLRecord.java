@@ -3,6 +3,7 @@ package com.example.http.hw3;
 import com.example.http.utils.TicTacToe;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.Unmarshaller;
 
 import java.io.File;
@@ -10,16 +11,18 @@ import java.io.FileFilter;
 import java.nio.file.Path;
 import java.util.Scanner;
 
-public class GameRecord {
+import static com.example.http.utils.Functions.pathToXML;
 
-    private final static Path pathToXML = Path.of(".\\src\\main\\resources");
+public class GameXMLRecord implements IParse{
+
     private Scanner sc;
     private File[] files;
 
-    public GameRecord(Scanner sc) {
+    public GameXMLRecord(Scanner sc) {
         this.sc = sc;
     }
 
+    @Override
     public void getRecordsList () {
         File recordFolder = pathToXML.toFile();
         FileFilter fileFilter = pathname -> pathname.getName().endsWith(".xml");
@@ -38,7 +41,8 @@ public class GameRecord {
         readRecord(files[number].getName());
     }
 
-    private void readRecord (String name) {
+    @Override
+    public void readRecord(String name) {
         try {
             File file = Path.of(pathToXML + "\\" + name).toFile();
             JAXBContext context = JAXBContext.newInstance(GameSession.class);
@@ -47,6 +51,19 @@ public class GameRecord {
             new TicTacToe(game);
         } catch (JAXBException ex) {
             ex.printStackTrace();
+        }
+    }
+
+    @Override
+    public void parse(GameSession game) {
+        try {
+            File xmlFile = Path.of(pathToXML + "\\" + game.getName() + ".xml").toFile();
+            JAXBContext context = JAXBContext.newInstance(GameSession.class);
+            Marshaller marshaller = context.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            marshaller.marshal(game, xmlFile);
+        } catch (JAXBException e) {
+            e.printStackTrace();
         }
     }
 }

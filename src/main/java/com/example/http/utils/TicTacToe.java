@@ -1,9 +1,7 @@
 package com.example.http.utils;
 
 
-import com.example.http.hw3.GameSession;
-import com.example.http.hw3.Player;
-import com.example.http.hw3.Step;
+import com.example.http.hw3.*;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Marshaller;
@@ -29,9 +27,8 @@ public class TicTacToe {
     private String winnerName;
     private static GameSession game;
     private static int counter = 1;
-
+    private static IParse parser = ParseFabric.getParser();
     private final static Path path = Path.of(".\\winners.txt");
-    private final static Path pathToXML = Path.of(".\\src\\main\\resources");
     private static List<String> list;
 
 
@@ -94,23 +91,12 @@ public class TicTacToe {
         }
         try {
             Files.write(path, list, StandardCharsets.UTF_8);
-            sessionWriteToXML();
+            parser.parse(game);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private static void sessionWriteToXML() {
-        try {
-            File xmlFile = Path.of(pathToXML + "\\" + game.getName() + ".xml").toFile();
-            JAXBContext context = JAXBContext.newInstance(GameSession.class);
-            Marshaller marshaller = context.createMarshaller();
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            marshaller.marshal(game, xmlFile);
-        } catch (JAXBException e) {
-            e.printStackTrace();
-        }
-    }
 
     private void gameStart() {
         if (!isRecord) {
@@ -133,7 +119,7 @@ public class TicTacToe {
         if (!isRecord && winnerName != null) {
             winnerWrite(winnerName);
         } else if (!isRecord) {
-            sessionWriteToXML();
+            parser.parse(game);
         }
 
 

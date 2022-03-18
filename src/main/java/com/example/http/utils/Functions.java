@@ -1,8 +1,12 @@
 package com.example.http.utils;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class Functions {
+
+    public static Path pathToXML = Path.of(".\\src\\main\\resources");
+
     public static int maxFromArray(ArrayList<Integer> values){
         Integer max = Integer.MIN_VALUE;
         for(int i=0; i<values.size(); i++){
