@@ -8,7 +8,7 @@ public class ParseFabric {
 
     public static IParse getParserInstance() {
         if (parseInstance == null) {
-            parseInstance = new GameJSONRecord(scanner);
+            parseInstance = new GameXMLRecord(scanner);
             return parseInstance;
         }
         return parseInstance;

@@ -1,7 +1,7 @@
 package com.example.http.hw3;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
@@ -9,6 +9,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 public class GameResult {
     private String result;
     @JsonProperty("Player")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Player player;
 
     public GameResult() {
@@ -23,7 +24,7 @@ public class GameResult {
         return result;
     }
 
-    @XmlAttribute
+    @XmlElement
     public void setResult(String result) {
         this.result = result;
     }
@@ -32,7 +33,7 @@ public class GameResult {
         return player;
     }
 
-    @XmlElement
+    @XmlElement(name = "player")
     public void setPlayer(Player player) {
         this.player = player;
     }

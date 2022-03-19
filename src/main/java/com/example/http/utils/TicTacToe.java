@@ -138,7 +138,7 @@ public class TicTacToe {
         if (isGridFull()) {
             System.out.println("Ничья");
             game.getGameResult().setResult("Draw!");
-            game.getGameResult().setPlayer(new Player(-1, "NotPlayer", "-"));
+//            game.getGameResult().setPlayer(new Player(-1, "NotPlayer", "-"));
             return true;
         }
         return false;
