@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Records</title>
+</head>
+<body>
+<form th:action="@{/records/play}" th:object="${recordNum}" method="post">
+    <label for="recordNum">Номер записи</label>
+    <input type="number" th:field="${recordNum.num}" id="recordNum" placeholder="Введите номер"><br>
+    <input type="submit" value="Воспроизвести запись">
+</form>
+<tr th:each="string : ${records}">
+    <td th:text="${string}"></td><br>
+</tr>
+</body>
+</html>

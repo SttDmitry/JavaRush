@@ -1,0 +1,17 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+</head>
+<body>
+<form th:action="@{/gamestart}" th:object="${names}" method="post">
+    <label for="name">Nickname 1'st</label>
+    <input type="text" th:field="*{name}" id="name" placeholder="Имя первого игрока"><br>
+    <label for="anotherName">Nickname 2'nd</label>
+    <input type="text" th:field="*{anotherName}" id="anotherName" placeholder="Имя второго игрока"><br>
+    <input type="submit" value="Start game">
+</form>
+<br>
+<a th:href="@{/records/}">Watch records</a>
+</body>
+</html>

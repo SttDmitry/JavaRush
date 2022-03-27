@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Step</title>
+</head>
+<body>
+<div th:if="${gameStep.size() > 0}" >
+    <tr th:each="str : ${gameStep}">
+        <td th:text="${str}"></td><br>
+    </tr>
+    <form th:action="@{/makestep}" th:object="${mstep}" method="post">
+        <label for="stepX">x (стобец)</label>
+        <input type="text" th:field="*{stepX}" id="stepX" placeholder="Номер столбца"><br>
+        <label for="stepY">y (строка)</label>
+        <input type="text" th:field="*{stepY}" id="stepY" placeholder="Номер строки"><br>
+        <input type="submit" value="Make step">
+    </form>
+</div>
+</body>
+</html>

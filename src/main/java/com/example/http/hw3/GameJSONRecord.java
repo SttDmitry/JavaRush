@@ -9,7 +9,9 @@ import org.json.JSONObject;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
 import static com.example.http.utils.Functions.pathToFile;
@@ -19,6 +21,9 @@ public class GameJSONRecord implements IParse {
     private Scanner sc;
     private File[] files;
     private ObjectMapper mapper;
+    private List<String> listOfFiles;
+    private int recordNum;
+    private boolean isOnline = false;
 
     {
         mapper = new ObjectMapper();
@@ -27,6 +32,7 @@ public class GameJSONRecord implements IParse {
 
     public GameJSONRecord(Scanner sc) {
         this.sc = sc;
+        listOfFiles = new ArrayList<>();
     }
 
     @Override
@@ -45,7 +51,12 @@ public class GameJSONRecord implements IParse {
         if (files.length == 0) {
             return;
         }
-        int number = sc.nextInt()-1;
+        int number;
+        if (recordNum > 0 && recordNum <= files.length) {
+            number = recordNum-1;
+        } else {
+            number = sc.nextInt()-1;
+        }
         readRecord(files[number].getName());
     }
 
@@ -54,20 +65,30 @@ public class GameJSONRecord implements IParse {
         try {
             File file = Path.of(pathToFile + "\\" + name).toFile();
             GameSession game = mapper.readValue(file, GameSession.class);
-            new TicTacToe(game);
+            new TicTacToe(game, isOnline);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void getRecordsList() {
+    public List<String> getRecordsList(boolean isOnline) {
+        recordNum = -1;
+        listOfFiles.clear();
         File recordFolder = pathToFile.toFile();
         FileFilter fileFilter = pathname -> pathname.getName().endsWith(".json");
         files = recordFolder.listFiles(fileFilter);
         for (int i = 0; i < files.length; i++) {
             System.out.println(i+1 + " " + files[i]);
+            listOfFiles.add(i+1 + " " + files[i]);
         }
+        if (!isOnline) getRecord();
+        return listOfFiles;
+    }
+
+    public void setRecordNum(int recordNum) {
+        this.recordNum = recordNum;
+        isOnline = true;
         getRecord();
     }
 }

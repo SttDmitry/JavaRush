@@ -33,7 +33,7 @@ public class Main {
 
                 TicTacToe ticTacToe = new TicTacToe(nickName1, nickName2);
             } else if (choice.equals("records")) {
-               gameRecord.getRecordsList();
+               gameRecord.getRecordsList(false);
             }
         } while (!choice.equals("end"));
     }

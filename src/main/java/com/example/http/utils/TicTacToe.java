@@ -2,51 +2,54 @@ package com.example.http.utils;
 
 
 import com.example.http.hw3.*;
+import com.example.http.hw5.entities.Names;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class TicTacToe {
-    private static String name;
-    private static String anotherName;
     private boolean isRecord;
     private static final int SIZE = 3;
     public static Scanner sc = new Scanner(System.in);
-    private static final char EMPTY_CHAR = '-';
-    private static final char FIRST_CHAR = 'X';
-    private static final char SECOND_CHAR = 'O';
-    private static final char[][] grid = new char[3][3];
+    private static final String EMPTY_CHAR = "-";
+    private static final String[][] grid = new String[3][3];
     private String winnerName;
     private static GameSession game;
     private static int counter = 1;
-    private static IParse parser = ParseFabric.getParserInstance();
+    private static final IParse parser = ParseFabric.getParserInstance();
     private final static Path path = Path.of(".\\winners.txt");
     private static List<String> list;
+    private static List<String> listOfWebPrint = new ArrayList<>();
+    private static List<String> listOfWebPrintRecord;
+    private static StringBuilder sb = new StringBuilder();
 
 
     public TicTacToe(String name, String anotherName) {
         winnersList();
-        TicTacToe.name = name;
-        TicTacToe.anotherName = anotherName;
+        game = new GameSession(name, anotherName);
         gridInitialize();
         gridPrint();
         isRecord = false;
         gameStart();
     }
 
-    public TicTacToe(GameSession gameSession) {
+    public TicTacToe(GameSession gameSession, boolean isOnline) {
         winnersList();
         game = gameSession;
         isRecord = true;
-        TicTacToe.name = gameSession.getPlayer().get(0).getName();
-        TicTacToe.anotherName = gameSession.getPlayer().get(1).getName();
         gridInitialize();
-        gridPrint();
+        if (!isOnline) gridPrint();
         gameStart();
+    }
+
+    public TicTacToe(Names names) {
+        winnersList();
+        listOfWebPrintRecord  = new ArrayList<>();
+        game = new GameSession(names.getName(), names.getAnotherName());
+        counter = 0;
     }
 
     private void winnersList() {
@@ -76,7 +79,7 @@ public class TicTacToe {
                 count++;
                 String temp = list.get(i).substring(list.get(i).lastIndexOf("-") + 2);
                 System.out.println("Ваши победы: " + temp);
-                Integer winCount = Integer.parseInt(temp);
+                int winCount = Integer.parseInt(temp);
                 winCount++;
                 list.set(i, name + " - " + winCount);
             }
@@ -96,35 +99,45 @@ public class TicTacToe {
     private void gameStart() {
         if (!isRecord) {
             counter = 1;
-            game = new GameSession(name, anotherName);
             while (true) {
-                if (gameTurn(FIRST_CHAR, name)) break;
-                if (gameTurn(SECOND_CHAR, anotherName)) break;
+                if (gameTurn(game.getPlayer().get(0).getSymbol(), game.getPlayer().get(0).getName(), null)) break;
+                if (gameTurn(game.getPlayer().get(1).getSymbol(), game.getPlayer().get(1).getName(), null)) break;
             }
         } else {
-            for (counter = 0; counter < game.getGame().getSteps().size(); counter++ ) {
+            for (counter = 0; counter < game.getGame().getSteps().size(); counter++) {
                 if (counter % 2 == 0) {
-                    gameTurn(FIRST_CHAR, name);
+                    gameTurn(game.getPlayer().get(0).getSymbol(), game.getPlayer().get(0).getName(), null);
                 } else {
-                    gameTurn(SECOND_CHAR, anotherName);
+                    gameTurn(game.getPlayer().get(1).getSymbol(), game.getPlayer().get(1).getName(), null);
                 }
             }
         }
+        saveGame();
+        System.out.println("Игра закончена");
+    }
 
+    public void saveGame() {
         if (!isRecord && winnerName != null) {
             winnerWrite(winnerName);
         } else if (!isRecord) {
             parser.parse(game);
         }
-
-
-        System.out.println("Игра закончена");
     }
 
-    private boolean gameTurn(char firstChar, String name) {
-        turn(firstChar, isRecord);
+    public boolean gameTurnOnline(String stepStr) {
+        listOfWebPrint.clear();
+        if (counter % 2 == 0) {
+            return gameTurn(game.getPlayer().get(0).getSymbol(), game.getPlayer().get(0).getName(), stepStr);
+        } else {
+            return gameTurn(game.getPlayer().get(1).getSymbol(), game.getPlayer().get(1).getName(), stepStr);
+        }
+    }
+
+    private boolean gameTurn(String firstChar, String name, String stepStr) {
+        turn(firstChar, isRecord, stepStr);
         gridPrint();
         if (checkWin(firstChar)) {
+            listOfWebPrint.add("Победил " + name);
             System.out.println("Победил " + name);
             winnerName = name;
             if (winnerName.equals(game.getPlayer().get(0).getName())) {
@@ -133,44 +146,66 @@ public class TicTacToe {
             } else {
                 game.getGameResult().setPlayer(game.getPlayer().get(1));
             }
+            if (stepStr != null) {
+                saveGame();
+            }
             return true;
         }
         if (isGridFull()) {
             System.out.println("Ничья");
+            listOfWebPrint.add("Ничья!");
             game.getGameResult().setResult("Draw!");
-//            game.getGameResult().setPlayer(new Player(-1, "NotPlayer", "-"));
+            if (stepStr != null) {
+                saveGame();
+            }
             return true;
         }
         return false;
     }
 
     private void gridInitialize() {
+        System.out.println(gridInitializeResult());
+    }
+
+
+    public String gridInitializeResult() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 grid[i][j] = EMPTY_CHAR;
             }
         }
-        System.out.println(name + ", Ваш ход будет отображаться " + FIRST_CHAR + ", \n" + anotherName + "  - " + SECOND_CHAR);
+        listOfWebPrint.add(0, game.getPlayer().get(0).getName() + ", Ваш ход будет отображаться " + game.getPlayer().get(0).getSymbol() + ",");
+        listOfWebPrint.add(1, game.getPlayer().get(1).getName() + "  - " + game.getPlayer().get(1).getSymbol());
+        listOfWebPrint.add(2, "Первый ход игрока - " + game.getPlayer().get(0).getName());
+        gridPrintResult();
+        return (listOfWebPrint.get(0) + "\n" + listOfWebPrint.get(1));
     }
 
     private void gridPrint() {
+        System.out.println(gridPrintResult());
+    }
+
+    public String gridPrintResult() {
+        sb.setLength(0);
         for (int i = 0; i < 3; i++) {
-            StringBuilder sb = new StringBuilder("| ");
+            sb.append("| ");
             for (int j = 0; j < 3; j++) {
                 sb.append(grid[i][j]).append(" | ");
             }
-            System.out.println(sb);
+            sb.append(" \n");
         }
+        listOfWebPrint.addAll(Arrays.asList(sb.toString().split(" \n")));
+        return sb.toString();
     }
 
-    private static boolean checkWin(char c) {
+    private static boolean checkWin(String c) {
         int w1 = 0;
         int w2 = 0;
         int w3 = 0;
         int w4 = 0;
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
-                if (grid[i][j] == c) {
+                if (Objects.equals(grid[i][j], c)) {
                     w1++;
                 } else {
                     w1 = 0;
@@ -179,7 +214,7 @@ public class TicTacToe {
                     return true;
                 }
 
-                if (grid[j][i] == c) {
+                if (Objects.equals(grid[j][i], c)) {
                     w2++;
                 } else {
                     w2 = 0;
@@ -188,18 +223,18 @@ public class TicTacToe {
                     return true;
                 }
 
-                if (grid[i][j] == c && i == j) {
+                if (Objects.equals(grid[i][j], c) && i == j) {
                     w3++;
-                } else if (grid[i][j] != c && i == j) {
+                } else if (!Objects.equals(grid[i][j], c) && i == j) {
                     w3 = 0;
                 }
                 if (w3 == SIZE) {
                     return true;
                 }
 
-                if (grid[i][j] == c && i + j == SIZE - 1) {
+                if (Objects.equals(grid[i][j], c) && i + j == SIZE - 1) {
                     w4++;
-                } else if (grid[i][j] != c && i + j == SIZE - 1) {
+                } else if (!Objects.equals(grid[i][j], c) && i + j == SIZE - 1) {
                     w4 = 0;
                 }
                 if (w4 == SIZE) {
@@ -215,29 +250,35 @@ public class TicTacToe {
 
     public static boolean isCellValid(int x, int y) {
         if (x < 0 || x >= SIZE || y < 0 || y >= SIZE) return false;
-        return grid[y][x] == EMPTY_CHAR;
+        return Objects.equals(grid[y][x], EMPTY_CHAR);
     }
 
     public static boolean isGridFull() {
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
-                if (grid[i][j] == EMPTY_CHAR) return false;
+                if (Objects.equals(grid[i][j], EMPTY_CHAR)) return false;
             }
         }
         return true;
     }
 
-    public static void turn(char c, boolean isRecord) {
+    public static void turn(String c, boolean isRecord, String stepStr) {
         int x, y;
         do {
-            if (c == FIRST_CHAR) {
-                System.out.println("Ход игрока " + name + " (координаты в формате X Y)");
+            if (Objects.equals(c, game.getPlayer().get(0).getSymbol())) {
+                listOfWebPrint.add("Ход игрока " + game.getPlayer().get(1).getName());
+                System.out.println("Ход игрока " + game.getPlayer().get(0).getName() + " (координаты в формате X Y)");
             } else {
-                System.out.println("Ход игрока " + anotherName + " (координаты в формате X Y)");
+                listOfWebPrint.add("Ход игрока " + game.getPlayer().get(0).getName());
+                System.out.println("Ход игрока " + game.getPlayer().get(1).getName() + " (координаты в формате X Y)");
             }
-            if (!isRecord) {
+            if (!isRecord && stepStr == null) {
                 x = sc.nextInt() - 1;
                 y = sc.nextInt() - 1;
+            } else if (stepStr != null) {
+                String[] xy = stepStr.split(" ");
+                x = Integer.parseInt(xy[0]) - 1;
+                y = Integer.parseInt(xy[1]) - 1;
             } else {
                 String step = game.getGame().getSteps().get(counter).getStep();
                 String[] xy = step.split(" ");
@@ -248,16 +289,23 @@ public class TicTacToe {
 
         if (!isRecord) {
             if (counter % 2 == 0) {
-                game.getGame().getSteps().add(new Step(counter++, game.getPlayer().get(1).getId(),x + " " + y));
+                game.getGame().getSteps().add(new Step(counter++, game.getPlayer().get(1).getId(), x + " " + y));
             } else {
-                game.getGame().getSteps().add(new Step(counter++, game.getPlayer().get(0).getId(),x + " " + y));
+                game.getGame().getSteps().add(new Step(counter++, game.getPlayer().get(0).getId(), x + " " + y));
             }
 
         }
-
-
         grid[y][x] = c;
     }
 
+    public static List<String> getListOfWebPrint() {
+        return listOfWebPrint;
+    }
 
+    public static String getGameResult(){
+        if (!game.getGameResult().getResult().equals("Draw!")) {
+            return game.getGameResult().getResult() + " - " + game.getGameResult().getPlayer().getName();
+        }
+        return game.getGameResult().getResult();
+    }
 }

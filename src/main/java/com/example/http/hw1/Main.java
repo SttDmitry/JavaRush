@@ -1,4 +1,4 @@
-package com.example.http;
+package com.example.http.hw1;
 
 import com.example.http.entities.Cat;
 import com.example.http.entities.Dog;
