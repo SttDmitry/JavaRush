@@ -17,6 +17,11 @@ public class TicTacToe {
     private static final String EMPTY_CHAR = "-";
     private static final String[][] grid = new String[3][3];
     private String winnerName;
+
+    public static GameSession getGame() {
+        return game;
+    }
+
     private static GameSession game;
     private static int counter = 1;
     private static final IParse parser = ParseFabric.getParserInstance();
@@ -25,6 +30,7 @@ public class TicTacToe {
     private static List<String> listOfWebPrint = new ArrayList<>();
     private static List<String> listOfWebPrintRecord;
     private static StringBuilder sb = new StringBuilder();
+    private static Random rand = new Random();
 
 
     public TicTacToe(String name, String anotherName) {
@@ -277,8 +283,20 @@ public class TicTacToe {
                 y = sc.nextInt() - 1;
             } else if (stepStr != null) {
                 String[] xy = stepStr.split(" ");
-                x = Integer.parseInt(xy[0]) - 1;
-                y = Integer.parseInt(xy[1]) - 1;
+                try {
+                    x = Integer.parseInt(xy[0]) - 1;
+                    y = Integer.parseInt(xy[1]) - 1;
+                } catch (NumberFormatException e) {
+                    System.out.println(e.getLocalizedMessage());
+                    int[] step = aiTurn();
+                    x = step[0];
+                    y = step[1];
+                }
+                if (!(x >= 0 && x < SIZE && y >= 0 && y < SIZE)) {
+                  int[] step = aiTurn();
+                  x = step[0];
+                  y = step[1];
+                }
             } else {
                 String step = game.getGame().getSteps().get(counter).getStep();
                 String[] xy = step.split(" ");
@@ -298,11 +316,26 @@ public class TicTacToe {
         grid[y][x] = c;
     }
 
+    public static int[] aiTurn() {
+        int[] step = new int[2];
+        int x, y;
+        do {
+            x = rand.nextInt(SIZE);
+            y = rand.nextInt(SIZE);
+        } while (!isCellValid(x, y));
+        step[0] = x;
+        step[1] = y;
+        return step;
+    }
+
     public static List<String> getListOfWebPrint() {
         return listOfWebPrint;
     }
 
     public static String getGameResult(){
+        if (game.getGameResult().getResult() == null) {
+            return "No result!";
+        }
         if (!game.getGameResult().getResult().equals("Draw!")) {
             return game.getGameResult().getResult() + " - " + game.getGameResult().getPlayer().getName();
         }

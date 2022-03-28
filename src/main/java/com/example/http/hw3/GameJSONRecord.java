@@ -47,14 +47,16 @@ public class GameJSONRecord implements IParse {
         }
     }
 
-    private void getRecord() {
+    private void getRecord() throws IllegalArgumentException{
         if (files.length == 0) {
             return;
         }
         int number;
         if (recordNum > 0 && recordNum <= files.length) {
             number = recordNum-1;
-        } else {
+        } else if (isOnline) {
+            throw new IllegalArgumentException("Index " + recordNum + " out of bounds!");
+        }  else {
             number = sc.nextInt()-1;
         }
         readRecord(files[number].getName());

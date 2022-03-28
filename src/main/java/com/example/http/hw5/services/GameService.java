@@ -12,6 +12,13 @@ public class GameService {
 
     private TicTacToe ticTacToe;
 
+    public GameService (TicTacToe ticTacToe) {
+        this.ticTacToe = ticTacToe;
+    }
+
+    public GameService() {
+    }
+
     public void gameStart(Names names) {
         ticTacToe = new TicTacToe(names);
         ticTacToe.gridInitializeResult();

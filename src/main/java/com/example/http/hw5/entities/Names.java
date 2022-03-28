@@ -1,14 +1,16 @@
 package com.example.http.hw5.entities;
 
 public class Names {
-    private String name;
-    private String anotherName;
+    private String name = "defaultNick1";
+    private String anotherName = "defaultNick2";
 
     public Names() {
     }
 
     public Names(String name, String anotherName) {
+        if (name != null && !name.isEmpty())
         this.name = name;
+        if (anotherName != null && !anotherName.isEmpty())
         this.anotherName = anotherName;
     }
 
@@ -17,6 +19,7 @@ public class Names {
     }
 
     public void setName(String name) {
+        if (name != null && !name.isEmpty())
         this.name = name;
     }
 
@@ -25,6 +28,7 @@ public class Names {
     }
 
     public void setAnotherName(String anotherName) {
+        if (anotherName != null && !anotherName.isEmpty())
         this.anotherName = anotherName;
     }
 }
