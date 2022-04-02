@@ -64,7 +64,7 @@ public class GameXMLRecord implements IParse{
             JAXBContext context = JAXBContext.newInstance(GameSession.class);
             Unmarshaller unmarshaller = context.createUnmarshaller();
             GameSession game = (GameSession) unmarshaller.unmarshal(file);
-            new TicTacToe(game, isOnline);
+            readRecord(game);
         } catch (JAXBException ex) {
             ex.printStackTrace();
         }
@@ -87,5 +87,10 @@ public class GameXMLRecord implements IParse{
         this.recordNum = recordNum;
         isOnline = true;
         getRecord();
+    }
+
+    @Override
+    public void readRecord(GameSession session) {
+        new TicTacToe(session, isOnline);
     }
 }

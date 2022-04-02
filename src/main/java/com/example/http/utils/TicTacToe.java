@@ -28,7 +28,6 @@ public class TicTacToe {
     private final static Path path = Path.of(".\\winners.txt");
     private static List<String> list;
     private static List<String> listOfWebPrint = new ArrayList<>();
-    private static List<String> listOfWebPrintRecord;
     private static StringBuilder sb = new StringBuilder();
     private static Random rand = new Random();
 
@@ -44,6 +43,7 @@ public class TicTacToe {
 
     public TicTacToe(GameSession gameSession, boolean isOnline) {
         winnersList();
+        listOfWebPrint.clear();
         game = gameSession;
         isRecord = true;
         gridInitialize();
@@ -53,7 +53,7 @@ public class TicTacToe {
 
     public TicTacToe(Names names) {
         winnersList();
-        listOfWebPrintRecord  = new ArrayList<>();
+        listOfWebPrint.clear();
         game = new GameSession(names.getName(), names.getAnotherName());
         counter = 0;
     }
@@ -146,9 +146,10 @@ public class TicTacToe {
             listOfWebPrint.add("Победил " + name);
             System.out.println("Победил " + name);
             winnerName = name;
+            game.getGameResult().setResult("Win!");
             if (winnerName.equals(game.getPlayer().get(0).getName())) {
                 game.getGameResult().setPlayer(game.getPlayer().get(0));
-                game.getGameResult().setResult("Win!");
+
             } else {
                 game.getGameResult().setPlayer(game.getPlayer().get(1));
             }
@@ -292,7 +293,7 @@ public class TicTacToe {
                     x = step[0];
                     y = step[1];
                 }
-                if (!(x >= 0 && x < SIZE && y >= 0 && y < SIZE)) {
+                if (!(x >= 0 && x < SIZE && y >= 0 && y < SIZE) | !isCellValid(x, y)) {
                   int[] step = aiTurn();
                   x = step[0];
                   y = step[1];
@@ -307,9 +308,9 @@ public class TicTacToe {
 
         if (!isRecord) {
             if (counter % 2 == 0) {
-                game.getGame().getSteps().add(new Step(counter++, game.getPlayer().get(1).getId(), x + " " + y));
+                game.getGame().getSteps().add(new Step(counter++,  x + " " + y));
             } else {
-                game.getGame().getSteps().add(new Step(counter++, game.getPlayer().get(0).getId(), x + " " + y));
+                game.getGame().getSteps().add(new Step(counter++,  x + " " + y));
             }
 
         }
@@ -337,7 +338,7 @@ public class TicTacToe {
             return "No result!";
         }
         if (!game.getGameResult().getResult().equals("Draw!")) {
-            return game.getGameResult().getResult() + " - " + game.getGameResult().getPlayer().getName();
+            return game.getGameResult().getPlayer().getName() + " - " + game.getGameResult().getResult();
         }
         return game.getGameResult().getResult();
     }

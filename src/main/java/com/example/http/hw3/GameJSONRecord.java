@@ -67,7 +67,7 @@ public class GameJSONRecord implements IParse {
         try {
             File file = Path.of(pathToFile + "\\" + name).toFile();
             GameSession game = mapper.readValue(file, GameSession.class);
-            new TicTacToe(game, isOnline);
+            readRecord(game);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -92,5 +92,10 @@ public class GameJSONRecord implements IParse {
         this.recordNum = recordNum;
         isOnline = true;
         getRecord();
+    }
+
+    @Override
+    public void readRecord(GameSession session) {
+        new TicTacToe(session, true);
     }
 }

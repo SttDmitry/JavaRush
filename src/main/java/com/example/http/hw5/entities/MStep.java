@@ -27,4 +27,12 @@ public class MStep {
         this.stepX = stepX;
         this.stepY = stepY;
     }
+
+    @Override
+    public String toString() {
+        return "MStep{" +
+                "stepX='" + stepX + '\'' +
+                ", stepY='" + stepY + '\'' +
+                '}';
+    }
 }

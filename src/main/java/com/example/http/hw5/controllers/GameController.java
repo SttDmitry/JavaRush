@@ -41,8 +41,9 @@ public class GameController {
     }
 
     @GetMapping("/gameresult")
-    private String gameResult(Model model) {
-//        model.addAttribute("winnerName", gameService.getResult());
+    private String gameResult(Model model, @ModelAttribute("gameResult")String result) {
+        model.addAttribute("gameResult", gameService.getResult());
+        gameService.saveGame();
         return "result";
     }
 

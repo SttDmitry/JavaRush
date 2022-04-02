@@ -1,2 +1,3 @@
 st - 60
 sd - 6
+defaultNick1 - 23

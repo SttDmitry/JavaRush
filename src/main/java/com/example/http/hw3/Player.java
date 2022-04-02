@@ -5,11 +5,18 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
+import javax.persistence.*;
+
 @XmlRootElement(name = "Player")
-@JsonPropertyOrder({ "_id", "_name", "_symbol"})
+@JsonPropertyOrder({"_id", "_name", "_symbol"})
+@Entity
+@Table(name = "players")
 public class Player {
     @JsonProperty("_id")
-    private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private Long id;
     @JsonProperty("_name")
     private String name;
     @JsonProperty("_symbol")
@@ -24,13 +31,18 @@ public class Player {
         this.symbol = symbol;
     }
 
-    public String getId() {
-        return String.valueOf(id);
+    public Player(String name, String symbol) {
+        this.name = name;
+        this.symbol = symbol;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     @XmlAttribute
-    public void setId(String id) {
-        this.id = Long.parseLong(id);
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
