@@ -1,3 +1,5 @@
 st - 60
 sd - 6
-defaultNick1 - 23
+defaultNick1 - 24
+Петр - 1
+defaultNick2 - 1

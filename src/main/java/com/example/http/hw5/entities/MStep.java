@@ -1,5 +1,8 @@
 package com.example.http.hw5.entities;
 
+import com.example.http.utils.AStep;
+
+@AStep
 public class MStep {
     private String stepX;
     private String stepY;
@@ -30,7 +33,7 @@ public class MStep {
 
     @Override
     public String toString() {
-        return "MStep{" +
+        return "AStep{" +
                 "stepX='" + stepX + '\'' +
                 ", stepY='" + stepY + '\'' +
                 '}';

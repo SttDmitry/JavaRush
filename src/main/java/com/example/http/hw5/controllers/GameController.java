@@ -7,8 +7,10 @@ import com.example.http.hw5.services.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 @Controller
 public class GameController {
 
@@ -32,7 +34,7 @@ public class GameController {
     }
 
     @PostMapping("/makestep")
-    private String makeStep(Model model, @ModelAttribute("mstep")MStep mstep) {
+    private String makeStep(Model model, @Valid @ModelAttribute("mstep")MStep mstep) {
         if(gameService.makeStep(mstep)) {
             return "redirect:/gameresult";
         }
