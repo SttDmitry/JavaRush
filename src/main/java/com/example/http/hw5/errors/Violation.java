@@ -1,8 +1,8 @@
 package com.example.http.hw5.errors;
 
 public class Violation {
-    private final String fieldName;
-    private final String message;
+    private String fieldName;
+    private String message;
 
     public Violation(String fieldName, String message) {
         this.fieldName = fieldName;
